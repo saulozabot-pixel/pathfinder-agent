@@ -35,6 +35,15 @@ export default function Home() {
     } catch {
       /* ignore */
     }
+
+    fetch("/api/applications")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.statuses) setApplied((prev) => ({ ...prev, ...data.statuses }));
+      })
+      .catch(() => {
+        /* Firestore unavailable — local state already loaded */
+      });
   }, []);
 
   function toggleApplied(caseNumber: string) {
@@ -45,6 +54,13 @@ export default function Home() {
       } catch {
         /* ignore */
       }
+      fetch("/api/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ caseNumber, applied: next[caseNumber] }),
+      }).catch(() => {
+        /* local state already updated as fallback */
+      });
       return next;
     });
   }

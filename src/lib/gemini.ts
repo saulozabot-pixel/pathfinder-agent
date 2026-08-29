@@ -2,7 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import type { DolCase } from "./dol";
 import type { CandidateProfile } from "./candidate";
 
-const MODEL = "gemini-2.5-flash";
+const MODEL = "gemini-3.5-flash";
 
 function getClient() {
   const apiKey = process.env.GEMINI_API_KEY;
